@@ -11,7 +11,7 @@ ENDPOINT = os.environ.get("ENDPOINT")
 try:
     req = requests.get(ENDPOINT)
     req.raise_for_status()
-    print(req.text[:128])
+    # print(req.text[:128])
     page = req.text
 except requests.exceptions.RequestException as e:
     print("ope, failed to GET the page")
