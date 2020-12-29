@@ -24,7 +24,7 @@ else:
         columns = table_row.findAll('td')
         output_row = []
         for column in columns:
-            output_row.append(column.text)
+            output_row.append(column.text.strip().replace(',', ''))
         output_rows.append(output_row)
 
     with open('output.csv', 'w') as csvfile:
