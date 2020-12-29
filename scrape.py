@@ -1,9 +1,11 @@
 from bs4 import BeautifulSoup
 import csv
 import requests
+import os
 
-ENDPOINT = "REDACTED"
+ENDPOINT = os.environ.get("ENDPOINT")
 
+# TODO be able to go through pages.
 # ?page=1 for page 2 (page param seems 0-based)
 
 try:
