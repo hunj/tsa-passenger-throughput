@@ -38,5 +38,5 @@ jobs:
 
       - name: commit changes
         run: |
-          chmod +x ./scripts/commit.sh
-          ./scripts/commit.sh
+          chmod +x ./commit.sh
+          ./commit.sh
