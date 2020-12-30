@@ -54,7 +54,7 @@
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
           rawData = xhr.responseText;
-          var rows = rawData.split(/\r?\n|\r/);
+          var rows = rawData.split(/\r?\n|\r/).reverse();
           rows.map(function(row) {
             var cols = row.split(',');
             dateLabels.push(cols[0]);
