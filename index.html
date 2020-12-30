@@ -42,14 +42,15 @@
             dateLabels.push(cols[0]);
             travellerCounts.push(cols[1]);
             prevYearTravellerCounts.push(cols[2]);
-          })
-         
+          });
+          drawChart();
         } else {
           // TODO handle error
         }
       }
     }
     
+    function drawChart() {
     var ctx = document.getElementById('chart').getContext('2d');
     var myChart = new Chart(ctx, {
         type: 'line',
@@ -77,6 +78,7 @@
             }
         }
     });
+    }
       </script>
       
   </body>
