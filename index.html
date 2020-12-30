@@ -11,13 +11,31 @@
     <title>TSA Passenger Throughput Visualization</title>
   </head>
   <body class="h-100">
-    <main style="padding-bottom: 40px;">
-      <canvas id="chart"></canvas>
+    <main class="container" style="padding-bottom: 40px;">
+      <h1 class="display-2">TSA Checkpoint Throughput Visualization</h1>
+      
+      <p class="lead">
+        This is a mini web scraping & data visualization project. Original raw data can be found @ TSA.gov.
+      </p>
+
+      <section class="card mb-3" id="chartContainer" style="width: 800px;">
+        <div class="card-body">
+          <canvas id="chart">
+            <p>Your browser does not support the canvas element.</p>
+          </canvas>
+        </div>
+      </section>
+
+      <p><em>
+        More insight coming soon...
+      </em></p>
+
     </main>
 
     <nav class="navbar fixed-bottom navbar-light bg-light">
       <div class="container-fluid">
-        <a href="/tsa-passenger-throughput/output.csv" target="_blank">Original CSV file</a>
+        <a href="https://www.tsa.gov/coronavirus/passenger-throughput" target="_blank">Original data from TSA.gov</a>
+        <a href="https://github.com/hunj/tsa-passenger-throughput/" target="_blank">View this page's GitHub Repository</a>
       </div>
     </nav>
     
@@ -51,35 +69,35 @@
     }
     
     function drawChart() {
-    var ctx = document.getElementById('chart').getContext('2d');
-    var myChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: dateLabels,
-            datasets: [{
-                label: '# of Travellers',
-                data: travellerCounts,
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
-            }
-        }
-    });
+      var ctx = document.getElementById('chart').getContext('2d');
+      var myChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: dateLabels,
+              datasets: [{
+                  label: '# of Travellers',
+                  data: travellerCounts,
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)'
+                  ],
+                  borderWidth: 1
+              }]
+          },
+          options: {
+              scales: {
+                  yAxes: [{
+                      ticks: {
+                          beginAtZero: true
+                      }
+                  }]
+              }
+          }
+      });
     }
-      </script>
+    </script>
       
   </body>
 </html>
