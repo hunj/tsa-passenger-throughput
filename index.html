@@ -10,14 +10,74 @@
 
     <title>TSA Passenger Throughput Visualization</title>
   </head>
-  <body>
-    <canvas id="chart"></canvas>
-    <a href="/tsa-passenger-throughput/output.csv" target="_blank">Original CSV file</a>
+  <body class="h-100">
+    <main style="padding-bottom: 40px;">
+      <canvas id="chart"></canvas>
+    </main>
+
+    <nav class="navbar fixed-bottom navbar-light bg-light">
+      <div class="container-fluid">
+        <a href="/tsa-passenger-throughput/output.csv" target="_blank">Original CSV file</a>
+      </div>
+    </nav>
+    
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
     <script type="text/javascript">
-      alert("yeet");
-    </script>
+    var xhr = new XMLHttpRequest();
+    var rawData;
+    var dateLabels = [], travellerCounts = [], prevYearTravellerCounts = [];
+    xhr.onreadystatechange = alertContents;
+    xhr.open("GET", "https://raw.githubusercontent.com/hunj/tsa-passenger-throughput/main/output.csv");
+    xhr.send();
+
+    function alertContents() {
+      if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.status === 200) {
+          rawData = xhr.responseText;
+          var rows = rawData.split(/\r?\n|\r/);
+          rows.map(function(row) {
+            var cols = row.split(',');
+            dateLabels.push(cols[0]);
+            travellerCounts.push(cols[1]);
+            prevYearTravellerCounts.push(cols[2]);
+          })
+         
+        } else {
+          // TODO handle error
+        }
+      }
+    }
+    
+    var ctx = document.getElementById('chart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: dateLabels,
+            datasets: [{
+                label: '# of Travellers',
+                data: travellerCounts,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
+    });
+      </script>
+      
   </body>
 </html>
