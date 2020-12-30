@@ -19,10 +19,11 @@ except requests.exceptions.RequestException as e:
 else:
     soup = BeautifulSoup(page, 'html.parser')
     data_table = soup.find('table', {'class': 'views-table'})
+    data = data_table.find('tbody')
     # print(data_table)
 
     output_rows = []
-    for table_row in data_table.findAll('tr'):
+    for table_row in data.findAll('tr'):
         columns = table_row.findAll('td')
         output_row = []
         for column in columns:
