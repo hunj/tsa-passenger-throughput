@@ -1,9 +1,9 @@
 name: Run Python scraper
 
 on:
-  # push:
-  #   branches:
-  #     - main
+  push:
+    branches:
+      - main
   schedule:
     # page is updated at 9am daily, timezone not specified; assume worst case of Pacific time + give 30 minutes
     - cron:  '30 5 * * *' # == Pacific time 9:30am
