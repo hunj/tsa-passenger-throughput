@@ -6,7 +6,7 @@ on:
       - main
   schedule:
     # page is updated at 9am daily, timezone not specified; assume worst case of Pacific time + give 30 minutes
-    - cron:  '30 5 * * *' # == Pacific time 9:30am
+    - cron:  '30 18 * * *' # UTC 18:30 == Pacific time 10:30 (run 1 more hour later in case daylight savings)
 
 jobs:
 
