@@ -55,7 +55,8 @@
     <script type="text/javascript">
     var xhr = new XMLHttpRequest();
     var rawData;
-    var dateLabels = [], travellerCounts = [], prevYearTravellerCounts = [];
+    var dateLabels = [];
+    var travellerCount2021 = [], travellerCount2020 = [], travellerCount2019 = [];
     xhr.onreadystatechange = alertContents;
     xhr.open("GET", "https://raw.githubusercontent.com/hunj/tsa-passenger-throughput/main/output.csv");
     xhr.send();
@@ -68,8 +69,9 @@
           rows.map(function(row) {
             var cols = row.split(',');
             dateLabels.push(cols[0]);
-            travellerCounts.push(cols[1]);
-            prevYearTravellerCounts.push(cols[2]);
+            travellerCount2021.push(cols[1]);
+            travellerCount2020.push(cols[2]);
+            travellerCount2019.push(cols[3]);
           });
           drawChart();
         } else {
@@ -86,7 +88,7 @@
               labels: dateLabels,
               datasets: [{
                   label: '# of Travellers',
-                  data: travellerCounts,
+                  data: travellerCount2021,
                   backgroundColor: [
                       'rgba(255, 99, 132, 0.2)'
                   ],
@@ -96,13 +98,24 @@
                   borderWidth: 1
                 },
                 {
-                  label: '# of Travellers last year (same weekday)',
-                  data: prevYearTravellerCounts,
+                  label: '# of Travellers in 2020 (same weekday)',
+                  data: travellerCount2020,
                   backgroundColor: [
                       'rgba(132, 99, 255, 0.2)'
                   ],
                   borderColor: [
                       'rgba(132, 99, 255, 1)'
+                  ],
+                  borderWidth: 1
+                },
+                {
+                  label: '# of Travellers in 2019 (same weekday)',
+                  data: travellerCount2019,
+                  backgroundColor: [
+                      'rgba(99, 255, 132, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(99, 255, 132, 1)'
                   ],
                   borderWidth: 1
               }]
