@@ -5,14 +5,13 @@ import os
 
 ENDPOINT = os.environ.get("ENDPOINT")
 
-output_rows = []
-# Iterate through multiple pages
-for i in range(5):
-    url = ENDPOINT+f"?page={i}"
+
+def get_page():
+    result = []
+
     try:
-        req = requests.get(url)
+        req = requests.get(ENDPOINT)
         req.raise_for_status()
-        # print(req.text[:128])
         page = req.text
     except requests.exceptions.RequestException as e:
         print("ope, failed to GET the page")
@@ -20,20 +19,22 @@ for i in range(5):
     else:
         soup = BeautifulSoup(page, 'html.parser')
         data_table = soup.find('table', {'class': 'views-table'})
-        try: # If no table, we are done scraping
-            data = data_table.find('tbody')
-        except AttributeError:
-            print("Finished scraping")
-            break
-        # print(data_table)
-    
+
+        data = data_table.find('tbody')
         for table_row in data.findAll('tr'):
+            row_data = []
             columns = table_row.findAll('td')
-            output_row = []
             for column in columns:
-                output_row.append(column.text.strip().replace(',', ''))
-            output_rows.append(output_row)
-    
-with open('output.csv', 'w', newline='') as csvfile:
-    writer = csv.writer(csvfile)
-    writer.writerows(output_rows)
+                row_data.append(column.text.strip().replace(',', ''))
+            result.append(row_data)
+    return result
+
+
+if __name__ == "__main__":
+    data = get_page()
+    if data:
+        with open('output.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(data)
+    else:
+        print("no data found")
