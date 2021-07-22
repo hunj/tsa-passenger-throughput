@@ -20,7 +20,7 @@
 
     <title>TSA Passenger Throughput Visualization</title>
   </head>
-  <body class="h-100">
+  <body class="h-100 py-3">
     <main class="container" style="padding-bottom: 40px;">
       <h1 class="display-2">TSA Checkpoint Throughput Visualization</h1>
       
@@ -55,8 +55,7 @@
     <script type="text/javascript">
     var xhr = new XMLHttpRequest();
     var rawData;
-    var dateLabels = [];
-    var travellerCount2021 = [], travellerCount2020 = [], travellerCount2019 = [];
+    var data = {};
     xhr.onreadystatechange = alertContents;
     xhr.open("GET", "https://raw.githubusercontent.com/hunj/tsa-passenger-throughput/main/output.csv");
     xhr.send();
@@ -65,13 +64,10 @@
       if (xhr.readyState === XMLHttpRequest.DONE) {
         if (xhr.status === 200) {
           rawData = xhr.responseText;
-          var rows = rawData.split(/\r?\n|\r/).reverse();
+          let rows = rawData.split(/\r?\n|\r/);
           rows.map(function(row) {
-            var cols = row.split(',');
-            dateLabels.push(cols[0]);
-            travellerCount2021.push(cols[1]);
-            travellerCount2020.push(cols[2]);
-            travellerCount2019.push(cols[3]);
+            let cols = row.split(',');
+            data[cols[0]] = cols[1];
           });
           drawChart();
         } else {
@@ -85,32 +81,11 @@
       var myChart = new Chart(ctx, {
           type: 'line',
           data: {
-              labels: dateLabels,
-              datasets: [{
+              labels: Object.keys(data),
+              datasets: [
+                {
                   label: '# of Travellers',
-                  data: travellerCount2021,
-                  backgroundColor: [
-                      'rgba(255, 99, 132, 0.2)'
-                  ],
-                  borderColor: [
-                      'rgba(255, 99, 132, 1)'
-                  ],
-                  borderWidth: 1
-                },
-                {
-                  label: '# of Travellers in 2020 (same weekday)',
-                  data: travellerCount2020,
-                  backgroundColor: [
-                      'rgba(132, 99, 255, 0.2)'
-                  ],
-                  borderColor: [
-                      'rgba(132, 99, 255, 1)'
-                  ],
-                  borderWidth: 1
-                },
-                {
-                  label: '# of Travellers in 2019 (same weekday)',
-                  data: travellerCount2019,
+                  data: Object.values(data),
                   backgroundColor: [
                       'rgba(99, 255, 132, 0.2)'
                   ],
@@ -118,7 +93,8 @@
                       'rgba(99, 255, 132, 1)'
                   ],
                   borderWidth: 1
-              }]
+                }
+              ]
           },
           options: {
               scales: {
